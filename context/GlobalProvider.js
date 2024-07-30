@@ -18,25 +18,21 @@ export const GlobalContextProvider = ({ children }) => {
 
 
     useEffect(() => {
+        setIsLoading(true);
         GetCurrentUser().then((res) => {
             if (res) {
-
-                setIsLoading(true)
-                setUser(res)
-            }
-            else {
-                setIsLoading(false)
-                setIsLoggedIn(null)
+                setUser(res);
+                setIsLoggedIn(true);
+            } else {
+                setIsLoggedIn(false);
             }
         }).catch((error) => {
-            console.log(error)
-            throw new Error(error)
+            console.log(error);
+            setIsLoggedIn(false)
         }).finally(() => {
-            setIsLoading(false)
-
-        })
-    }, [])
-
+            setIsLoading(false);
+        });
+    }, []);
 
     return (
 
@@ -44,7 +40,7 @@ export const GlobalContextProvider = ({ children }) => {
             isLoggedIn, setUser, setIsLoggedIn, setIsLoading, user, isLoading
         }}>
 
-            {{ children }}
+            {children}
         </GlobalContext.Provider>
     )
 }
