@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Slot, SplashScreen, Stack } from 'expo-router';
-import  { useFonts} from "expo-font"
+import { useFonts } from "expo-font"
+import { GlobalContextProvider } from '../context/GlobalProvider';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -18,20 +19,22 @@ const RootLayout = () => {
     "Poppins-Thin": require("../assets/fonts/Poppins-Thin.ttf"),
   });
 
-  useEffect(()=>{
-    if(error) throw error;
-    if(fontsLoaded) SplashScreen.hideAsync();
+  useEffect(() => {
+    if (error) throw error;
+    if (fontsLoaded) SplashScreen.hideAsync();
 
-  },[fontsLoaded, error])
-  if(!fontsLoaded && !error) return null;
+  }, [fontsLoaded, error])
+  if (!fontsLoaded && !error) return null;
 
   return (
-<Stack>
-    <Stack.Screen name="index" options={{ headerShown: false }}/>
-    <Stack.Screen name="(auth)" options={{ headerShown: false }}/>
-    <Stack.Screen name="(tabs)" options={{ headerShown: false }}/>
+    <GlobalContextProvider>
+      <Stack>
+        <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
 
-</Stack>
+      </Stack>
+    </GlobalContextProvider>
   );
 };
 
@@ -41,7 +44,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    
+
   },
 });
 
