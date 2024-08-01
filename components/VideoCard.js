@@ -4,7 +4,7 @@ import { icons } from '../constants'
 import { Video, ResizeMode } from 'expo-av'
 
 
-const VideoCard = ({ video: { title, thumbnail, prompt, Video, users: { email, username, avatar } } }) => {
+const VideoCard = ({ video: { title, thumbnail, prompt, video, users: { email, username, avatar } } }) => {
 
     const [play, setPlay] = useState(false)
     return (
@@ -32,7 +32,7 @@ const VideoCard = ({ video: { title, thumbnail, prompt, Video, users: { email, u
             </View>
             {play ?
                 (
-                    <Video source={{ uri: Video }} className="w-full h-60 rounded-xl mt-3 " resizeMode={ResizeMode.CONTAIN} useNativeControls
+                    <Video source={{ uri: video }} className="w-full h-60 rounded-xl mt-3 " resizeMode={ResizeMode.CONTAIN} useNativeControls
                         shouldPlay onPlaybackStatusUpdate={(status) => {
                             if (status.didJustFinish) {
                                 setPlay(false)
