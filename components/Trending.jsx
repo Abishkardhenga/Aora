@@ -27,7 +27,7 @@ const zoomOut = {
 }
 
 const TrendingItem = ({ activeItem , item }) => {
-    console.log("trending item ko item", item)
+    // console.log("trending item ko item", item)
     const  [play , setPlay] = useState(false)
     return (
         <Animatable.View className="mr-5" animation={ activeItem === item.$id ? zoomIn : zoomOut}>
@@ -48,7 +48,7 @@ const TrendingItem = ({ activeItem , item }) => {
 
 const Trending = ({posts}) => {
 
-    console.log("this is post", posts)
+    // console.log("this is post", posts)
     const [active, setActive] = useState(posts[0])
 
 
