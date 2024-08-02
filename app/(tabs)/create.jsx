@@ -1,11 +1,16 @@
-import { View, Text, SafeAreaView, ScrollView, Image,TouchableOpacity } from 'react-native'
+import { View, Text, SafeAreaView, ScrollView, Image,TouchableOpacity, Alert } from 'react-native'
 import React, { useState } from 'react'
 import FormField from '../../components/FormField'
 import { ResizeMode, Video } from 'expo-av'
 import { icons } from '../../constants'
 import CustomButton from '../../components/CustomButton'
+import * as DocumentPicker from "expo-document-picker"
+import { createVideo } from '../../lib/appwrite'
+import { router } from 'expo-router'
+import { useGlobalContext } from '../../context/GlobalProvider'
 
 const Create = () => {
+  const { user} =  useGlobalContext()
   const [form, setForm] = useState({
     title: "",
     thumbnail: null,
@@ -16,8 +21,56 @@ const Create = () => {
   const [uploading, setUploading] = useState(false)
 
 
-  const submit = ()=>{
+  const openPicker = async(selectType)=>{
+    const result = await DocumentPicker.getDocumentAsync({
+      type:selectType === "image" ? ["image/png", "image/jpg"] : ["video/mp4", "video/gif"]
+    })
+    if(!result.canceled){
 
+      if(selectType === "image"){
+        setForm({...form ,   thumbnail:result.assets[0]})
+        
+      }
+      if(selectType === "video"){
+        setForm({...form ,   video:result.assets[0]})
+
+      }
+
+    }
+  
+
+  }
+
+
+  const submit =async ()=>{
+
+    if(!form.title || !form.thumbnail || !form.video || !form.prompt){
+      Alert.alert("Missing", "Please  Enter all the fields ")
+    }
+  setUploading(true)
+  try {
+    const data = await createVideo({
+      ...form , userId : user.$id
+    })
+
+    Alert.alert("Success", "Post uploaded  successfully")
+
+    router.push("/home")
+    
+  } catch (error) {
+    Alert.alert("Error", error.message)
+    
+  }
+  finally{
+    setForm({
+      title: "",
+      thumbnail: null,
+      video: null,
+      prompt: "",
+    })
+    setUploading(false)
+
+  }
   }
   return (
     <SafeAreaView className="h-full bg-primary">
@@ -26,13 +79,13 @@ const Create = () => {
         <Text className="text-2xl text-white font-psemibold">
           Upload Video
         </Text>
-        <FormField title="Video Title" value={form.title} placeholder="Give Your video a catch title ..." handleChangeText={(e) => setForm({ ...obj, title: e })}
+        <FormField title="Video Title" value={form.title} placeholder="Give Your video a catch title ..." handleChangeText={(e) => setForm({ ...form, title: e })}
           otherStyles="mt-10" />
         <View className="mt-7 space-y-2">
           <Text className="text-base text-gray-100 font-pmedium">
             Upload Video
           </Text>
-          <TouchableOpacity>
+          <TouchableOpacity  onPress={()=>openPicker("video")}>
             {form.video ? <Video className="w-full h-64 rounded-2xl" source={{ uri: form.video.uri }} useNativeControls isLooping resizeMode={ResizeMode.COVER} /> : (
               <View className="w-full h-40 px-4 rounded-2xl  justify-center items-center bg-black-100">
                 <View className="h-14 w-14 justify-center border border-dashed  border-secondary-100 items-center">
@@ -50,7 +103,7 @@ const Create = () => {
         <Text className="text-2xl text-white font-psemibold">
           Upload Thumnail Images
         </Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={()=>openPicker("image")}>
             {form.thumbnail ? (
             <Image source={{uri:form.thumbnail.uri}} className="w-full h-64 rounded-2xl" resizeMode='cover'/>
             )  : (
@@ -67,7 +120,7 @@ const Create = () => {
           </TouchableOpacity>
 
         </View>
-        <FormField title="AI Prompt" value={form.prompt} placeholder="The Prompt you used to create this video" handleChangeText={(e) => setForm({ ...obj, prompt: e })}
+        <FormField title="AI Prompt" value={form.prompt} placeholder="The Prompt you used to create this video" handleChangeText={(e) => setForm({ ...form, prompt: e })}
           otherStyles="mt-7" />
           <CustomButton title="submit & Publish " handlePress={submit} containerStyles="mt-7" isLoading={uploading}/>
       </ScrollView>
