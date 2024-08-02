@@ -1,7 +1,6 @@
-import { View, Text, SafeAreaView, ScrollView, Image } from 'react-native'
+import { View, Text, SafeAreaView, ScrollView, Image,TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import FormField from '../../components/FormField'
-import { TouchableOpacity } from 'react-native-web'
 import { ResizeMode, Video } from 'expo-av'
 import { icons } from '../../constants'
 import CustomButton from '../../components/CustomButton'
@@ -70,7 +69,7 @@ const Create = () => {
         </View>
         <FormField title="AI Prompt" value={form.prompt} placeholder="The Prompt you used to create this video" handleChangeText={(e) => setForm({ ...obj, prompt: e })}
           otherStyles="mt-7" />
-          <CustomButton title="submit & Publish " handlePress={submit} containerStyles="mt-7" isLoading={up}/>
+          <CustomButton title="submit & Publish " handlePress={submit} containerStyles="mt-7" isLoading={uploading}/>
       </ScrollView>
     </SafeAreaView>
   )
