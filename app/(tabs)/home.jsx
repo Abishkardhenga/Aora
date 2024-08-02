@@ -8,10 +8,12 @@ import { StatusBar } from 'expo-status-bar'
 import { GetAllPost, GetCurrentUser, GetLatestPost } from '../../lib/appwrite'
 import useAppwrite from '../../lib/useAppwrite'
 import VideoCard from '../../components/VideoCard'
-
+import { useGlobalContext } from '../../context/GlobalProvider'
 const home = () => {
   const [refreshing, setRefreshing] = useState(false)
   const { data: posts, refetch } = useAppwrite(GetAllPost)
+  const  { isLoggedIn, setUser, setIsLoggedIn, setIsLoading, user, isLoading} = useGlobalContext()
+
   const { data: latestPost } = useAppwrite(GetLatestPost)
 
   const onRefresh = async () => {
@@ -37,7 +39,7 @@ const home = () => {
                   Welcome Back
                 </Text>
                 <Text className="text-2xl font-psemibold text-white">
-                  Aabiskar dhenga              </Text>
+                {user?.username}            </Text>
               </View>
               <View className="mt-1.5">
                 <Image source={images.logoSmall} className="h-10 w-9" resizeMode='content' />
