@@ -23,7 +23,7 @@ const Create = () => {
 
   const openPicker = async(selectType)=>{
     const result = await DocumentPicker.getDocumentAsync({
-      type:selectType === "image" ? ["image/png", "image/jpg"] : ["video/mp4", "video/gif"]
+      type:selectType === "image" ? ["image/png", "image/jpeg"] : ["video/mp4", "video/gif"]
     })
     if(!result.canceled){
 
@@ -86,7 +86,7 @@ const Create = () => {
             Upload Video
           </Text>
           <TouchableOpacity  onPress={()=>openPicker("video")}>
-            {form.video ? <Video className="w-full h-64 rounded-2xl" source={{ uri: form.video.uri }} useNativeControls isLooping resizeMode={ResizeMode.COVER} /> : (
+            {form.video ? <Video className="w-full h-64 rounded-2xl" source={{ uri: form.video.uri }}  resizeMode={ResizeMode.COVER} /> : (
               <View className="w-full h-40 px-4 rounded-2xl  justify-center items-center bg-black-100">
                 <View className="h-14 w-14 justify-center border border-dashed  border-secondary-100 items-center">
                   <Image source={icons.upload} className="w-1/12 h-1/12" resizeMode='contain' />

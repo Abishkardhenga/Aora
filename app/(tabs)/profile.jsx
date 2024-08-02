@@ -11,6 +11,7 @@ import { StatusBar } from 'expo-status-bar'
 import { icons } from '../../constants'
 import InfoBox from '../../components/InfoBox'
 import Emptystate from '../../components/Emptystate'
+import VideoCard from '../../components/VideoCard'
 
 const Profile = () => {
     const  { isLoggedIn, setUser, setIsLoggedIn, setIsLoading, user, isLoading} = useGlobalContext()
