@@ -15,7 +15,6 @@ const home = () => {
   const  { isLoggedIn, setUser, setIsLoggedIn, setIsLoading, user, isLoading} = useGlobalContext()
 
   const { data: latestPost } = useAppwrite(GetLatestPost)
-
   const onRefresh = async () => {
     await refetch()
     setRefreshing(true)
@@ -47,7 +46,7 @@ const home = () => {
               </View>
 
             </View>
-            <SearchInput />
+            <SearchInput placeholder="Search for Video Topic" />
             <View className="w-full flex-1 pt-5 pb-8">
               <Text className="text-gray-100 font-pregular mb-3 text-lg">
                 Latest Videos

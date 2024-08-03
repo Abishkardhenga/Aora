@@ -12,7 +12,7 @@ const [query, setQuery] = useState(initialQuery || "" )
             <View className="w-full h-16 border-2 flex-row px-4 border-black-200 rounded-2xl bg-black-100 focus:border-secondary items-center space-x-4">
                 <TextInput
                     className="text-base mt-0.5 text-white flex-1 font-pregular " value={query}
-                    placeholder="Search for a Topic" placeholderTextColor="#CDCDE0"
+                    placeholder={placeholder} placeholderTextColor="#CDCDE0"
                     onChangeText={(e)=>setQuery(e)}
                    />
             <TouchableOpacity onPress={()=>{
