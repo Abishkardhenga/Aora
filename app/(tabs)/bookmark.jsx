@@ -1,5 +1,5 @@
 import { View, Text, SafeAreaView, ScrollView, FlatList } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { getBookmark } from '../../lib/appwrite'
 import useAppwrite from '../../lib/useAppwrite'
 import { useGlobalContext } from '../../context/GlobalProvider'
@@ -11,17 +11,18 @@ const Bookmark = () => {
   const { user } = useGlobalContext()
 
   const { data: bookmarkdata } = useAppwrite(() => getBookmark(user.$id))
+
   console.log("this is bookmarkdata", bookmarkdata)
   return (
     <SafeAreaView className="bg-primary h-full">
       <StatusBar style='light' />
 
         <FlatList data={bookmarkdata} keyExtractor={(item) => item.$id}
-       renderItem={({ item }) => {
+       renderItem={({ item, index }) => {
         return (
           <View className="mt-7">
 
-          <VideoCard  video={item} containerStyles=""  />
+          <VideoCard  key={`${item.$id}-${index}`} type="bookmark" video={item} containerStyles=""  />
           </View>
         )
       }}

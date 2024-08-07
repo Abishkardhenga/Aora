@@ -25,9 +25,9 @@ const Search = () => {
       <StatusBar style='light' />
       <FlatList
         data={posts}
-        keyExtractor={(item) => item.$id} renderItem={({ item }) => {
+        keyExtractor={(item) => item.$id} renderItem={({ item , index}) => {
           return (
-            <VideoCard video={item} />
+            <VideoCard key={`${item.$id}-${index}`} video={item} />
           )
         }} ListHeaderComponent={() => (
           <View className="my-6 px-4 ">

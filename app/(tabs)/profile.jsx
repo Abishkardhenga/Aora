@@ -18,6 +18,7 @@ const Profile = () => {
 
      const { query } = useLocalSearchParams()
        const { data: posts, refetch } = useAppwrite(()=>GetUserPost(user.$id))
+       console.log("this is post", posts)
 
 
 
@@ -35,9 +36,9 @@ const Profile = () => {
     <StatusBar style='light' />
     <FlatList
       data={posts}
-      keyExtractor={(item) => item.$id} renderItem={({ item }) => {
+      keyExtractor={(item) => item.$id} renderItem={({ item,index }) => {
         return (
-          <VideoCard video={item} />
+          <VideoCard key={`${item.$id}-${index}`} type="Profile" video={item} />
         )
       }} ListHeaderComponent={() => (
 
