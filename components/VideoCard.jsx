@@ -6,6 +6,7 @@ import { useGlobalContext } from '../context/GlobalProvider'
 import { createBookmark } from '../lib/appwrite'
 
 const VideoCard = ({ video: { title, thumbnail, prompt, video, $id, users: { email, username, avatar } }, containerStyles, type }) => {
+   
     const [menuOpened, setMenuOpened] = useState(false)
     const [creatingBookmark, setCreatingBookmark] = useState(false)
     const [play, setPlay] = useState(false)

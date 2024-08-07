@@ -6,23 +6,34 @@ import { useGlobalContext } from '../../context/GlobalProvider'
 import VideoCard from '../../components/VideoCard'
 import { StatusBar } from 'expo-status-bar'
 import SearchInput from '../../components/SearchInput'
+import uuid from 'react-native-uuid';
+
 
 const Bookmark = () => {
   const { user } = useGlobalContext()
 
   const { data: bookmarkdata } = useAppwrite(() => getBookmark(user.$id))
+  
 
   console.log("this is bookmarkdata", bookmarkdata)
   return (
     <SafeAreaView className="bg-primary h-full">
       <StatusBar style='light' />
 
-        <FlatList data={bookmarkdata} keyExtractor={(item) => item.$id}
+        <FlatList data={bookmarkdata} keyExtractor={(item) =>
+        {
+          console.log("this is item", item)
+          console.log(item.$id)
+          return uuid.v4()
+
+        }
+
+         }
        renderItem={({ item, index }) => {
         return (
           <View className="mt-7">
 
-          <VideoCard  key={`${item.$id}-${index}`} type="bookmark" video={item} containerStyles=""  />
+          <VideoCard  key={index} type="bookmark" video={item} containerStyles=""  />
           </View>
         )
       }}

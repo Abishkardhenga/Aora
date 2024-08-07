@@ -38,7 +38,7 @@ const Profile = () => {
       data={posts}
       keyExtractor={(item) => item.$id} renderItem={({ item,index }) => {
         return (
-          <VideoCard key={`${item.$id}-${index}`} type="Profile" video={item} />
+          <VideoCard key={index} type="Profile" video={item} />
         )
       }} ListHeaderComponent={() => (
 

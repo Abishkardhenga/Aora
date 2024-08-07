@@ -27,7 +27,7 @@ const Search = () => {
         data={posts}
         keyExtractor={(item) => item.$id} renderItem={({ item , index}) => {
           return (
-            <VideoCard key={`${item.$id}-${index}`} video={item} />
+            <VideoCard key={`${Math.floor(Math.random()*10000)}-${index}`} video={item} />
           )
         }} ListHeaderComponent={() => (
           <View className="my-6 px-4 ">
