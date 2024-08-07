@@ -37,6 +37,7 @@ const Profile = () => {
     <FlatList
       data={posts}
       keyExtractor={(item) => item.$id} renderItem={({ item,index }) => {
+        console.log("this is profile item", item)
         return (
           <VideoCard key={index} type="Profile" video={item} />
         )

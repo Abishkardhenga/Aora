@@ -14,8 +14,8 @@ const Bookmark = () => {
 
   const { data: bookmarkdata } = useAppwrite(() => getBookmark(user.$id))
   
-
-  console.log("this is bookmarkdata", bookmarkdata)
+console.log("bookmark data", bookmarkdata)
+// console.log("Id", bookmarkdata.$id)
   return (
     <SafeAreaView className="bg-primary h-full">
       <StatusBar style='light' />

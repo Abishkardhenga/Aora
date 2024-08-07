@@ -5,12 +5,14 @@ import { ResizeMode, Video } from 'expo-av'
 import { icons } from '../../constants'
 import CustomButton from '../../components/CustomButton'
 import * as DocumentPicker from "expo-document-picker"
-import { createVideo } from '../../lib/appwrite'
+import { createVideo, updatePost } from '../../lib/appwrite'
 import { router } from 'expo-router'
 import { useGlobalContext } from '../../context/GlobalProvider'
 
 const Create = () => {
-  const { user} =  useGlobalContext()
+  const  [ editMode , setEditMode] = useState(false)
+
+  const { user,editingData } =  useGlobalContext()
   const [form, setForm] = useState({
     title: "",
     thumbnail: null,
@@ -19,6 +21,22 @@ const Create = () => {
 
   })
   const [uploading, setUploading] = useState(false)
+
+
+  const update = async(updatedPost)=>{
+    setEditMode(true)
+    try {
+      await updatePost(updatePost)
+      Alert.alert("Success", "successfuly update the data")
+      
+    } catch (error) {
+      throw error  ; 
+    }
+    finally{
+      setEditMode(false)
+    }
+
+  }
 
 
   const openPicker = async(selectType)=>{
@@ -122,7 +140,7 @@ const Create = () => {
         </View>
         <FormField title="AI Prompt" value={form.prompt} placeholder="The Prompt you used to create this video" handleChangeText={(e) => setForm({ ...form, prompt: e })}
           otherStyles="mt-7" />
-          <CustomButton title="submit & Publish " handlePress={submit} containerStyles="mt-7" isLoading={uploading}/>
+          <CustomButton    title={`${editMode?"Updata":"Submit & Push"}`}  handlePress={`${editMode? update: submit}`} containerStyles="mt-7" isLoading={uploading}/>
       </ScrollView>
     </SafeAreaView>
   )

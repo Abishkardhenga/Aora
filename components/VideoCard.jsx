@@ -3,14 +3,17 @@ import React, { useState } from 'react'
 import { icons } from '../constants'
 import { Video, ResizeMode } from 'expo-av'
 import { useGlobalContext } from '../context/GlobalProvider'
-import { createBookmark } from '../lib/appwrite'
+import { createBookmark, deleteBookmark, deletePost, GetPostDetailById } from '../lib/appwrite'
+import { router } from 'expo-router'
 
-const VideoCard = ({ video: { title, thumbnail, prompt, video, $id, users: { email, username, avatar } }, containerStyles, type }) => {
-   
+const VideoCard = ({ video: { title, thumbnail, prompt, video, $id, users: { email, username, avatar } ,}, containerStyles, type }) => {
+   console.log("id",$id)
+    
+
     const [menuOpened, setMenuOpened] = useState(false)
     const [creatingBookmark, setCreatingBookmark] = useState(false)
     const [play, setPlay] = useState(false)
-    const { user } = useGlobalContext()
+    const { user , editingData , setEditingData } = useGlobalContext()
 
     const saveToBookmark = async () => {
         setCreatingBookmark(true)
@@ -28,19 +31,32 @@ const VideoCard = ({ video: { title, thumbnail, prompt, video, $id, users: { ema
     const menuFunction = () => {
         setMenuOpened(!menuOpened)
     }
+   
 
-    const  editPost = async()=>{
+    const  editPost = async(postId)=>{
+
+    
         try {
+           const data =  await GetPostDetailById(postId)
+           setEditingData(data)
+           router.push("create")
+
+
         
         } catch (error) {
             throw new Error(error)
             
         }
+        
     }
 
-const deleteProfilePost = async ()=>{
+
+
+const deleteProfilePost = async (profileId)=>{
+    console.log("Delete the id", profileId)
     try {
-        
+        const result = await deletePost(profileId)
+        Alert.alert("Success", "Successfully deleted the post")
     } catch (error) {
         throw new Error(error)
         
@@ -49,6 +65,7 @@ const deleteProfilePost = async ()=>{
 
 const deleteBookmarkPost = async()=>{
     try {
+    const result =     await deleteBookmark()
         
     } catch (error) {
         throw new Error(error)
@@ -87,7 +104,7 @@ const deleteBookmarkPost = async()=>{
 
                             {type === "Profile" && (
                                 <>
-                                    <TouchableOpacity className="absolute right-0 z-10 top-20 p-2 rounded-lg bg-white">
+                                    <TouchableOpacity onPress={()=>deleteProfilePost($id)} className="absolute right-0 z-10 top-20 p-2 rounded-lg bg-white">
                                         <Image source={icons.remove} className="w-5 h-8" resizeMode='contain' style={{ tintColor: 'black' }} />
                                     </TouchableOpacity>
                                     <TouchableOpacity className="absolute right-0 z-10 top-32 p-2 rounded-lg bg-white">
