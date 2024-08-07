@@ -29,6 +29,34 @@ const VideoCard = ({ video: { title, thumbnail, prompt, video, $id, users: { ema
         setMenuOpened(!menuOpened)
     }
 
+    const  editPost = async()=>{
+        try {
+        
+        } catch (error) {
+            throw new Error(error)
+            
+        }
+    }
+
+const deleteProfilePost = async ()=>{
+    try {
+        
+    } catch (error) {
+        throw new Error(error)
+        
+    }
+}
+
+const deleteBookmarkPost = async()=>{
+    try {
+        
+    } catch (error) {
+        throw new Error(error)
+        
+    }
+
+}
+
     return (
         <View className={`flex-col items-center px-4 mb-14 ${containerStyles}`}>
             <View className="flex-row items-start gap-3">
@@ -47,26 +75,26 @@ const VideoCard = ({ video: { title, thumbnail, prompt, video, $id, users: { ema
                     </TouchableOpacity>
                     {menuOpened && (
                         <>
-                            <TouchableOpacity onPress={saveToBookmark} className="absolute  right-0 z-10 top-8 p-2 rounded-lg">
-                                <Image source={icons.bookmark} className="w-5 h-8" resizeMode='content' />
+                            <TouchableOpacity onPress={saveToBookmark} className="absolute right-0 z-10 top-8 p-2 rounded-lg">
+                                <Image source={icons.bookmark} className="w-5 h-8" resizeMode='contain' />
                             </TouchableOpacity>
-                            {type === "bookmark" && type === "Profile" && (
 
-                                <TouchableOpacity className="absolute  right-0 z-10 top-20 p-2 rounded-lg">
-                                    <Image source={icons.remove} className="w-5 h-8" resizeMode='contain' />
-                                </TouchableOpacity>)
-                            }
+                            {type === "bookmark" && (
+                                <TouchableOpacity className="absolute right-0 z-10 top-20 p-2 rounded-lg bg-white">
+                                    <Image source={icons.remove} className="w-5 h-8" resizeMode='contain' style={{ tintColor: 'black' }} />
+                                </TouchableOpacity>
+                            )}
 
-                            {
-                                type === "Profile" && (
-
-                                    <TouchableOpacity className="absolute  right-0 z-10 top-32 p-2 rounded-lg">
-                                        <Image source={icons.edit} className="w-5 h-8" resizeMode='contain' />
-                                    </TouchableOpacity>)
-
-
-
-                            }
+                            {type === "Profile" && (
+                                <>
+                                    <TouchableOpacity className="absolute right-0 z-10 top-20 p-2 rounded-lg bg-white">
+                                        <Image source={icons.remove} className="w-5 h-8" resizeMode='contain' style={{ tintColor: 'black' }} />
+                                    </TouchableOpacity>
+                                    <TouchableOpacity className="absolute right-0 z-10 top-32 p-2 rounded-lg bg-white">
+                                        <Image source={icons.edit} className="w-5 h-8" resizeMode='contain' style={{ tintColor: 'black' }} />
+                                    </TouchableOpacity>
+                                </>
+                            )}
                         </>
                     )}
                 </View>

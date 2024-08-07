@@ -22,8 +22,7 @@ const Bookmark = () => {
 
         <FlatList data={bookmarkdata} keyExtractor={(item) =>
         {
-          console.log("this is item", item)
-          console.log(item.$id)
+        
           return uuid.v4()
 
         }
