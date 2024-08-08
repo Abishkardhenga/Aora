@@ -2,7 +2,7 @@
 
 
 import { View, Text, SafeAreaView, FlatList, TouchableOpacity, Image } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { router, useLocalSearchParams } from 'expo-router'
 import useAppwrite from '../../lib/useAppwrite'
 import { GetUserPost, signOut } from '../../lib/appwrite'
@@ -20,6 +20,9 @@ const Profile = () => {
        const { data: posts, refetch } = useAppwrite(()=>GetUserPost(user.$id))
 
 
+       useEffect(()=>{
+refetch()
+       },[posts])
 
    const logout = async()=>{
  await signOut()   

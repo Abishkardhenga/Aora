@@ -34,7 +34,7 @@ const VideoCard = ({ video: { title, thumbnail, prompt, video, $id, users: { ema
 
     const  editPost = async(postId)=>{
 
-        console.log("Post id", postId)
+        console.log("editinPost", postId)
         
 
     

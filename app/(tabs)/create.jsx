@@ -11,7 +11,8 @@ import { useGlobalContext } from '../../context/GlobalProvider';
 
 const Create = () => {
   const { user, editingData, editMode, setEditMode ,setEditingData} = useGlobalContext();
-  console.log("Editing Data id", editingData.$id);
+  console.log("Editing Data id", editingData?.$id);
+
 
   const [form, setForm] = useState({
     title: editMode ? editingData.title : "",
@@ -19,13 +20,23 @@ const Create = () => {
     video: editMode ? editingData.video : null,
     prompt: editMode ? editingData.prompt : "",
   });
+
+  const resetState = ()=>{
+    setForm({
+      title: "",
+      thumbnail: null,
+      video: null,
+      prompt: "",
+    });
+
+  }
   useEffect(() => {
     if (editMode && editingData) {
       setForm({
-        title: editingData.title,
-        thumbnail: editingData.thumbnail,
-        video: editingData.video,
-        prompt: editingData.prompt,
+        title: editingData?.title,
+        thumbnail: editingData?.thumbnail,
+        video: editingData?.video,
+        prompt: editingData?.prompt,
       });
     }
   }, [editMode, editingData]);
@@ -37,10 +48,10 @@ const Create = () => {
   const update = async () => {
     try {
       console.log("editijg data id ", editingData.$id)
-      await updatePost(editingData.$id,form);
+      await updatePost(editingData?.$id,form);
       setEditMode(false)
       setEditingData(null)
-      
+      resetState()
       Alert.alert("Success", "Successfully updated the data");
     } catch (error) {
       Alert.alert("Error", error.message);
@@ -77,12 +88,7 @@ const Create = () => {
     } catch (error) {
       Alert.alert("Error", error.message);
     } finally {
-      setForm({
-        title: "",
-        thumbnail: null,
-        video: null,
-        prompt: "",
-      });
+      resetState()
       setUploading(false);
     }
   };
@@ -105,9 +111,9 @@ const Create = () => {
           <Text className="text-base text-gray-100 font-pmedium">Upload Video</Text>
           <TouchableOpacity onPress={() => openPicker("video")}>
             {editMode ? (
-              <Video className="w-full h-64 rounded-2xl" source={{ uri: form.video ? form.video.uri : ''}} resizeMode={ResizeMode.COVER} />
+              <Video className="w-full h-64 rounded-2xl" source={{ uri: form.video }} resizeMode={ResizeMode.COVER} />
             ) : form.video ? (
-              <Video className="w-full h-64 rounded-2xl" source={{ uri: form.video ? form.video.uri : '' }} resizeMode={ResizeMode.COVER} />
+              <Video className="w-full h-64 rounded-2xl" source={{ uri: form.video.uri  }} resizeMode={ResizeMode.COVER} />
             ) : (
               <View className="w-full h-40 px-4 rounded-2xl justify-center items-center bg-black-100">
                 <View className="h-14 w-14 justify-center border border-dashed border-secondary-100 items-center">
@@ -121,9 +127,9 @@ const Create = () => {
           <Text className="text-2xl text-white font-psemibold">Upload Thumbnail Images</Text>
           <TouchableOpacity onPress={() => openPicker("image")}>
             {editMode ? (
-              <Image source={{uri: form.thumbnail ? form.thumbnail.uri : ''}} className="w-full h-64 rounded-2xl" resizeMode="cover" />
+              <Image source={{uri: form.thumbnail }} className="w-full h-64 rounded-2xl" resizeMode="cover" />
             ) : form.thumbnail ? (
-              <Image source={{uri: form.thumbnail ? form.thumbnail.uri : '' }} className="w-full h-64 rounded-2xl" resizeMode="cover" />
+              <Image source={{uri:  form.thumbnail.uri  }} className="w-full h-64 rounded-2xl" resizeMode="cover" />
             ) : (
               <View className="w-full h-16 px-4 rounded-2xl justify-center flex-row space-x-2 items-center bg-black-100 border-2 border-black-200">
                 <Image source={icons.upload} className="w-5 h-5" resizeMode="contain" />
@@ -140,7 +146,7 @@ const Create = () => {
           otherStyles="mt-7"
         />
         <CustomButton
-          title={editMode ? "Update" : "Submit & Push"}
+          title={editMode ? "Update" : "Submit"}
           handlePress={editMode ? update : submit}
           containerStyles="mt-7"
           isLoading={uploading}
