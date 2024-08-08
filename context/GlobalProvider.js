@@ -16,6 +16,8 @@ export const GlobalContextProvider = ({ children }) => {
     const [user, setUser] = useState(null)
     const [editingData, setEditingData] = useState(null)
     const [isLoading, setIsLoading] = useState(false)
+    const [editMode, setEditMode] = useState(false)
+
 
 
     useEffect(() => {
@@ -38,7 +40,7 @@ export const GlobalContextProvider = ({ children }) => {
     return (
 
         <GlobalContext.Provider value={{
-            isLoggedIn, setUser, setIsLoggedIn, setIsLoading, user, isLoading, editingData, setEditingData
+            isLoggedIn, setUser, setIsLoggedIn, setIsLoading, user, isLoading, editingData, setEditingData, editMode, setEditMode
         }}>
 
             {children}

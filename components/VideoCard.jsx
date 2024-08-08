@@ -7,13 +7,12 @@ import { createBookmark, deleteBookmark, deletePost, GetPostDetailById } from '.
 import { router } from 'expo-router'
 
 const VideoCard = ({ video: { title, thumbnail, prompt, video, $id, users: { email, username, avatar } ,}, containerStyles, type }) => {
-   console.log("id",$id)
     
 
     const [menuOpened, setMenuOpened] = useState(false)
     const [creatingBookmark, setCreatingBookmark] = useState(false)
     const [play, setPlay] = useState(false)
-    const { user , editingData , setEditingData } = useGlobalContext()
+    const { user , editingData , setEditingData , setEditMode} = useGlobalContext()
 
     const saveToBookmark = async () => {
         setCreatingBookmark(true)
@@ -35,10 +34,16 @@ const VideoCard = ({ video: { title, thumbnail, prompt, video, $id, users: { ema
 
     const  editPost = async(postId)=>{
 
+        console.log("Post id", postId)
+        
+
     
         try {
+            console.log("PostId", postId)
            const data =  await GetPostDetailById(postId)
            setEditingData(data)
+           setEditMode(true)
+
            router.push("create")
 
 
@@ -107,7 +112,7 @@ const deleteBookmarkPost = async()=>{
                                     <TouchableOpacity onPress={()=>deleteProfilePost($id)} className="absolute right-0 z-10 top-20 p-2 rounded-lg bg-white">
                                         <Image source={icons.remove} className="w-5 h-8" resizeMode='contain' style={{ tintColor: 'black' }} />
                                     </TouchableOpacity>
-                                    <TouchableOpacity className="absolute right-0 z-10 top-32 p-2 rounded-lg bg-white">
+                                    <TouchableOpacity onPress={()=>editPost($id)} className="absolute right-0 z-10 top-32 p-2 rounded-lg bg-white">
                                         <Image source={icons.edit} className="w-5 h-8" resizeMode='contain' style={{ tintColor: 'black' }} />
                                     </TouchableOpacity>
                                 </>
